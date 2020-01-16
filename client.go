@@ -2,6 +2,7 @@ package anticaptcha
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -11,6 +12,7 @@ import (
 
 type Client struct {
 	ClientKey string
+	URL       string
 	Debug     bool
 }
 
@@ -49,8 +51,8 @@ type Response_CreateTask struct {
 }
 
 type Response_GetTaskResult struct {
-	ErrorID int    `json:"errorId"`
-	Status  string `json:"status,omitempty"`
+	ErrorID  int    `json:"errorId"`
+	Status   string `json:"status,omitempty"`
 	Solution struct {
 		// ImageToText
 		Text string `json:"text,omitempty"`
@@ -108,7 +110,7 @@ type Response_GetQueueStats struct {
 
 type Response_GetSpendingStats struct {
 	ErrorID int `json:"errorId"`
-	Data []struct {
+	Data    []struct {
 		DateFrom int     `json:"dateFrom"`
 		DateTill int     `json:"dateTill"`
 		Volume   int     `json:"volume"`
@@ -117,7 +119,7 @@ type Response_GetSpendingStats struct {
 }
 
 type Response_GetAppStats struct {
-	ErrorID int `json:"errorId"`
+	ErrorID   int `json:"errorId"`
 	ChartData []struct {
 		Name string `json:"name"`
 		Data []struct {
@@ -146,7 +148,7 @@ type Response_GenerateCoupons struct {
 type Response_GetResellerData struct {
 	ErrorID         int     `json:"errorId"`
 	EligibleBalance float64 `json:"eligibleBalance"`
-	Coupons []struct {
+	Coupons         []struct {
 		ID     int    `json:"id"`
 		Amount int    `json:"amount"`
 		Code   string `json:"code"`
@@ -162,7 +164,15 @@ type Response struct {
 // NewClient
 // Create new anti-captcha client
 func NewClient(ClientKey string) *Client {
-	return &Client{ClientKey: ClientKey}
+	return &Client{ClientKey: ClientKey, URL: URL}
+}
+
+func (c *Client) ChengeURL(url string) {
+	s := []rune(url)
+	if string(s[len(s)-1]) == "/" {
+		url = string(s[0 : len(s)-1])
+	}
+	c.URL = url
 }
 
 func (c *Client) SetDebug(v bool) {
@@ -194,7 +204,12 @@ func (c *Client) request(url string, req_data *Reqest, resp_data interface{}) (e
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := http.DefaultClient.Do(req)
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
+	resp, err := client.Do(req)
+	//resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		error.set(err)
 		return error

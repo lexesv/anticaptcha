@@ -21,7 +21,7 @@ func (c *Client) GenerateCoupons(count int, amount float32, purchaseLink string)
 	}
 	req.PurchaseLink = purchaseLink
 	res := &Response_GenerateCoupons{}
-	err := c.request(URL_generateCoupons, req, res)
+	err := c.request(c.URL+EP_generateCoupons, req, res)
 	return res, err
 }
 
@@ -33,6 +33,6 @@ func (c *Client) GetResellerData(minCreateDate int) (*Response_GetResellerData, 
 		req.MinCreateDate = minCreateDate
 	}
 	res := &Response_GetResellerData{}
-	err := c.request(URL_generateCoupons, req, res)
+	err := c.request(c.URL+EP_generateCoupons, req, res)
 	return res, err
 }

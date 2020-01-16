@@ -87,13 +87,13 @@ type Task_CustomCaptcha struct {
 	Type       string `json:"type"`
 	ImageURL   string `json:"imageUrl"`
 	Assignment string `json:"assignment"`
-	Forms []struct {
-		Label       string      `json:"label"`
-		LabelHint   string      `json:"labelHint"`
-		ContentType string      `json:"contentType,omitempty"`
-		Content     interface{} `json:"contentType,omitempty"`
-		Name        string      `json:"name"`
-		InputType   string      `json:"inputType"`
+	Forms      []struct {
+		Label        string      `json:"label"`
+		LabelHint    string      `json:"labelHint"`
+		ContentType  string      `json:"contentType,omitempty"`
+		Content      interface{} `json:"contentType,omitempty"`
+		Name         string      `json:"name"`
+		InputType    string      `json:"inputType"`
 		InputOptions struct {
 			Width       string `json:"width"`
 			Rows        string `json:"rows,omitempty"`
@@ -281,7 +281,7 @@ func (c *Client) CreateTask(task interface{}) (*Response_CreateTask, *Error) {
 	req := &Reqest{}
 	req.Task = task
 	res := &Response_CreateTask{}
-	err := c.request(URL_createTask, req, res)
+	err := c.request(c.URL+EP_createTask, req, res)
 	return res, err
 }
 
@@ -291,7 +291,7 @@ func (c *Client) GetTaskResult(taskId int) (*Response_GetTaskResult, *Error) {
 	req := &Reqest{}
 	req.TaskID = taskId
 	res := &Response_GetTaskResult{}
-	err := c.request(URL_getTaskResult, req, res)
+	err := c.request(c.URL+EP_getTaskResult, req, res)
 	return res, err
 }
 
@@ -301,6 +301,6 @@ func (c *Client) ReportIncorrectImageCaptcha(taskId int) (*ResponseReportIncorre
 	req := &Reqest{}
 	req.TaskID = taskId
 	res := &ResponseReportIncorrectImageCaptcha{}
-	err := c.request(URL_reportIncorrectImageCaptcha, req, res)
+	err := c.request(c.URL+EP_reportIncorrectImageCaptcha, req, res)
 	return res, err
 }

@@ -5,7 +5,7 @@ package anticaptcha
 func (c *Client) GetBalance() (*Response_GetBalance, *Error) {
 	req := &Reqest{}
 	res := &Response_GetBalance{}
-	err := c.request(URL_getBalance, req, res)
+	err := c.request(c.URL+EP_getBalance, req, res)
 	return res, err
 }
 
@@ -15,7 +15,7 @@ func (c *Client) GetQueueStats(queueId int) (*Response_GetQueueStats, *Error) {
 	req := &Reqest{}
 	req.QueueId = queueId
 	res := &Response_GetQueueStats{}
-	err := c.request(URL_getQueueStats, req, res)
+	err := c.request(c.URL+EP_getQueueStats, req, res)
 	return res, err
 }
 
@@ -36,7 +36,7 @@ func (c *Client) GetSpendingStats(date int, queue string, softId int, ip string)
 		req.IP = ip
 	}
 	res := &Response_GetSpendingStats{}
-	err := c.request(URL_getSpendingStats, req, res)
+	err := c.request(c.URL+EP_getSpendingStats, req, res)
 	return res, err
 }
 
@@ -54,6 +54,6 @@ func (c *Client) GetAppStats(softId int, mode string) (*Response_GetAppStats, *E
 		req.Mode = mode
 	}
 	res := &Response_GetAppStats{}
-	err := c.request(URL_getAppStats, req, res)
+	err := c.request(c.URL+EP_getAppStats, req, res)
 	return res, err
 }

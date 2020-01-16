@@ -1,14 +1,15 @@
 package anticaptcha
 
 const (
-	URL_createTask                  = "https://api.anti-captcha.com/createTask"
-	URL_getTaskResult               = "https://api.anti-captcha.com/getTaskResult"
-	URL_getBalance                  = "https://api.anti-captcha.com/getBalance"
-	URL_getQueueStats               = "https://api.anti-captcha.com/getQueueStats"
-	URL_reportIncorrectImageCaptcha = "https://api.anti-captcha.com/reportIncorrectImageCaptcha"
-	URL_getSpendingStats            = "https://api.anti-captcha.com/getSpendingStats"
-	URL_getAppStats                 = "https://api.anti-captcha.com/getAppStats"
-	URL_generateCoupons             = "https://api.anti-captcha.com/generateCoupons"
+	URL                            = "https://api.anti-captcha.com"
+	EP_createTask                  = "/createTask"
+	EP_getTaskResult               = "/getTaskResult"
+	EP_getBalance                  = "/getBalance"
+	EP_getQueueStats               = "/getQueueStats"
+	EP_reportIncorrectImageCaptcha = "/reportIncorrectImageCaptcha"
+	EP_getSpendingStats            = "/getSpendingStats"
+	EP_getAppStats                 = "/getAppStats"
+	EP_generateCoupons             = "/generateCoupons"
 
 	//Captcha Task Types
 
